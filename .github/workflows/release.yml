@@ -37,15 +37,19 @@ jobs:
           make -j32
           echo "编译完成" 
 
-      - name: Create or Update Release
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: latest  # 固定 tag，不依赖 push 的 tag
-          release_name: "Latest Firmware"
+          tag_name: latest
+          name: "Latest Firmware"
           body: "🚀 这是最新的固件发布，每次 push 都会更新！"
           draft: false
           prerelease: false
           files: |
             build_out/*.bin
             build_out/*.elf
+
+      - name: 检查文件大小，避免上传空文件
+        run: |
+          find build_out/ -type f -size 0 -exec rm -f {} \;
