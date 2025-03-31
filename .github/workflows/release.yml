@@ -34,15 +34,18 @@ jobs:
 
       - name: 编译测试
         run: |
-          cd Ai-Thinker-WB2/applications/get-started/helloworld
-          make -j8
-          echo "编译完成"
+          make -j32
+          echo "编译完成" 
 
-      - name: Create release
-        uses: svenstaro/upload-release-action@v2
+      - name: Create or Update Release
+        uses: softprops/action-gh-release@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/*
-          tag: ${{ github.ref }}
-          overwrite: true
-          file_glob: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: latest  # 固定 tag，不依赖 push 的 tag
+          release_name: "Latest Firmware"
+          body: "🚀 这是最新的固件发布，每次 push 都会更新！"
+          draft: false
+          prerelease: false
+          files: |
+            build_out/*.bin
+            build_out/*.elf
