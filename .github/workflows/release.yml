@@ -28,7 +28,8 @@ jobs:
       - name: 赋予权限并执行
         run: |
           ls Ai-Thinker-WB2/toolchain/riscv/Linux
-          sudo chmod +x Ai-Thinker-WB2/toolchain/riscv/Linux/chmod755.sh 
+          rm -rf Ai-Thinker-WB2/toolchain/riscv/Linux/chmod755.sh
+          mv chmod755.sh Ai-Thinker-WB2/toolchain/riscv/Linux/.
           bash Ai-Thinker-WB2/toolchain/riscv/Linux/chmod755.sh         
 
       - name: 编译测试
