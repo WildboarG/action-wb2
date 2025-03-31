@@ -30,12 +30,12 @@ jobs:
       
       - name: 拉取依赖
         run: |
-           cd ~/Ai-Thinker-WB2/toolchain/riscv/Linux/
+           cd $GITHUB_WORKSPACE/Ai-Thinker-WB2/toolchain/riscv/Linux/
            ./chmod775.sh 
 
       - name: 编译测试
         run: |
-          cd ~/Ai-Thinker-WB2/applications/get-started/helloworld
+          cd $GITHUB_WORKSPACE/Ai-Thinker-WB2/applications/get-started/helloworld
           make -j8
           echo "编译完成"
 
