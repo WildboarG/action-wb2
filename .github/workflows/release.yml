@@ -37,6 +37,9 @@ jobs:
           make -j32
           echo "编译完成" 
 
+      - name: 删除所有空文件，避免 GitHub 报错
+        run: find build_out/ -type f -size 0 -delete
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
@@ -49,7 +52,3 @@ jobs:
           files: |
             build_out/*.bin
             build_out/*.elf
-
-      - name: 检查文件大小，避免上传空文件
-        run: |
-          find build_out/ -type f -size 0 -exec rm -f {} \;
