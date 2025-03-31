@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+      actions: write 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go environment
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.22.x
+          stable: true
+
+      - name: 安装sdk
+        run: |
+          git clone --recursive https://github.com/Ai-Thinker-Open/Ai-Thinker-WB2.git
+      
+      - name: 拉取依赖
+        run: |
+           cd ~/Ai-Thinker-WB2/toolchain/riscv/Linux/
+           ./chmod775.sh 
+
+      - name: 编译测试
+        run: |
+          cd ~/Ai-Thinker-WB2/applications/get-started/helloworld
+          make -j8
+          echo "编译完成"
+
+      - name: Create release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
