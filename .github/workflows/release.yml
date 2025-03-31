@@ -1,9 +1,6 @@
 name: Release
 
-on:
-  push:
-    tags:
-      - v*
+on: push
 
 jobs:
   release:
@@ -28,14 +25,14 @@ jobs:
         run: |
           git clone --recursive https://github.com/Ai-Thinker-Open/Ai-Thinker-WB2.git
       
-      - name: 拉取依赖
+      - name: 赋予权限并执行
         run: |
-           cd $GITHUB_WORKSPACE/Ai-Thinker-WB2/toolchain/riscv/Linux/
-           ./chmod775.sh 
+          chmod +x Ai-Thinker-WB2/toolchain/riscv/Linux/chmod775.sh
+          bash Ai-Thinker-WB2/toolchain/riscv/Linux/chmod775.sh         
 
       - name: 编译测试
         run: |
-          cd $GITHUB_WORKSPACE/Ai-Thinker-WB2/applications/get-started/helloworld
+          cd Ai-Thinker-WB2/applications/get-started/helloworld
           make -j8
           echo "编译完成"
 
