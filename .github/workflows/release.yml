@@ -32,7 +32,7 @@ jobs:
       - name: 编译测试
         run: |
           TAG=$(git describe --tags --abbrev=0)
-          GIT_TAG =$TAG make -j32
+          GIT_TAG=$TAG make -j32
           echo "编译完成" 
 
       - name: 删除所有空文件，避免 GitHub 报错
