@@ -33,7 +33,7 @@ jobs:
         run: |
           TAG=$(git describe --tags --abbrev=0)
           GIT_TAG=$TAG make -j32
-          echo "编译完成" 
+          ls -l build_out/ || echo "build_out directory not found" 
 
       - name: 删除所有空文件，避免 GitHub 报错
         run: find build_out/ -type f -size 0 -delete
@@ -57,7 +57,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build_out/*.bin build_out/*.elf 
+          file: build_out/*.bin
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
